@@ -64,6 +64,8 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
     private float buttonRadius;
     private double power = 0;
     private double angle = 0;
+    private float xPercent = 0;
+    private float yPercent = 0;
 
     //Background Color
     private int padColor;
@@ -84,7 +86,8 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
     private Bitmap buttonBitmap = null;
 
     public interface JoyStickListener {
-        void onMove(JoyStick joyStick, double angle, double power, int direction);
+        //void onMove(JoyStick joyStick, double angle, double power, int direction);
+        void onMove(JoyStick joystick, float xPercent, float yPercent, double angle);
 
         void onTap();
 
@@ -145,7 +148,12 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
         centerY = height / 2;
         float min = Math.min(width, height);
         posX = centerX;
-        posY = centerY;
+        if(stayPut){
+            posY = (centerY+radius-50);
+        }
+        else {
+            posY = centerY;
+        }
         buttonRadius = (min / 2f * (percentage / 100f));
         radius = (min / 2f * ((100f - percentage) / 100f));
     }
@@ -188,20 +196,36 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
                     else posX = centerX;
                 }
 
-                float abs = (float) Math.sqrt((posX - centerX) * (posX - centerX)
+                /**
+                 * Joystick is limited to the ButtonRadius
+                 * @abs = Displacement from the center (hypotenuse)
+                 */
+                /*float abs = (float) Math.sqrt((posX - centerX) * (posX - centerX)                   // Pythagoras Theorem
                         + (posY - centerY) * (posY - centerY));
                 if (abs > radius) {
                     posX = ((posX - centerX) * radius / abs + centerX);
                     posY = ((posY - centerY) * radius / abs + centerY);
-                }
+                }*/
+                /**
+                 * Joystick is limited to a rectangular region
+                 */
+                if(posX > centerX + radius) posX = centerX + radius;
+                else if(posX < centerX - radius) posX = centerX - radius;
 
-                angle = Math.atan2(centerY - posY, centerX - posX);
+                if(posY > centerY + radius) posY = centerY + radius;
+                else if(posY < centerY - radius) posY = centerY - radius;
+
+                //angle = Math.atan2(centerY - posY, centerX - posX);
+                angle = (centerX-posX)/9;
 
                 power = (100 * Math.sqrt((posX - centerX)
                         * (posX - centerX) + (posY - centerY)
                         * (posY - centerY)) / radius);
 
                 direction = calculateDirection(Math.toDegrees(angle));
+
+                xPercent = (posX - centerX)/radius;
+                yPercent = (posY - centerY)/radius;
 
                 invalidate();
                 break;
@@ -213,13 +237,27 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
                     direction = DIRECTION_CENTER;
                     angle = 0;
                     power = 0;
+                    xPercent = 0;
+                    yPercent = 0;
+                    invalidate();
+                }
+                // Adding the else statement so that I can move just the X-Axis to go back to centerX
+                else
+                {
+                    posX = centerX;
+                    //posY = centerY;
+                    direction = DIRECTION_CENTER;
+                    //angle = 30;
+                    //power = 10;
+                    xPercent = 0;
                     invalidate();
                 }
                 break;
         }
 
         if (listener != null) {
-            listener.onMove(this, angle, power, direction);
+            //listener.onMove(this, angle, power, direction);
+            listener.onMove(this, xPercent, yPercent, angle);//round(xPercent, 3), round(yPercent, 3), angle);                                      // OnMove method is defined in the public interface Joystick
         }
         return true;
     }
@@ -313,6 +351,27 @@ public class JoyStick extends View implements GestureDetector.OnGestureListener,
         return type;
     }
 
+    /**
+     * For rounding floating point numbers to scale decimal points.
+     * https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
+     * @param value: The floating point number to be rounded
+     * @param scale: the number of digits after the decimal point
+     * @return: Float rounded to (scale) decimal points
+     */
+    public static float round(float value, int scale) {
+        int pow = 10;
+        for (int i = 1; i < scale; i++) {
+            pow *= 10;
+        }
+        float tmp = value * pow;
+        float tmpSub = tmp - (int) tmp;
+
+        return ( (float) ( (int) (
+                value >= 0
+                        ? (tmpSub >= 0.5f ? tmp + 1 : tmp)
+                        : (tmpSub >= -0.5f ? tmp : tmp - 1)
+        ) ) ) / pow;
+    }
     //Customization ----------------------------------------------------------------
 
     public void setPadColor(int padColor) {
