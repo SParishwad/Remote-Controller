@@ -55,6 +55,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Bitmap droid;
     private Bitmap plane1;
+    private Bitmap plane2;
     private GameLoop gameLoop;
     private Paint paint;
     private Vector<Star> stars = new Vector<>();
@@ -82,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setColor(Color.WHITE);
         droid = BitmapFactory.decodeResource(getResources(), R.drawable.droid);
         plane1 = BitmapFactory.decodeResource(getResources(), R.drawable.plane1);
+        plane2 = BitmapFactory.decodeResource(getResources(), R.drawable.plane2);
     }
 
     @Override
@@ -103,13 +105,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (posY > height - radius) posY = height - radius;
         if (posY < radius) posY = radius;
 
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setTextSize(30);
+        canvas.drawText(String.format("%.2f, %.2f", (newLeftPercentX * 0.3), (newLeftPercentY * 0.9)), 10, 25, paint);
+        canvas.drawText(String.format("%.2f, %.2f", (newRightPercentX * 0.3), (newRightPercentY * 0.9)), 1980, 25, paint);
+        //canvas.drawText(String.format("%.2f", radius), posX-radius, posY-radius, paint);
+
         float rotate;
         if (angle2 == 0) rotate = 0;
         else rotate = (int) angle2;
         //else rotate = (float) Math.toDegrees(angle2) - 90;
         canvas.rotate(rotate, posX, posY);
-        rectF.set(posX - radius * 4, posY - radius, posX + radius * 4, posY + radius);
-        canvas.drawBitmap(plane1, null, rectF, paint);
+
+        //rectF.set(posX - radius * 4, posY - radius, posX + radius * 4, posY + radius);
+        rectF.set(posX-(newLeftPercentY+210)*2, posY-(newLeftPercentY+210)/2,               // For zooming the bitmap image
+                posX+(newLeftPercentY+210)*2, posY+(newLeftPercentY+210)/2);
+        canvas.drawBitmap(plane2, null, rectF, paint);
     }
 
     @Override
@@ -191,8 +203,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     DecimalFormat df = new DecimalFormat("##.#");
                     Log.d("Left Joystick", "X percent: "
                             + df.format(newLeftPercentX * 0.3)                              // Rudder Sweep = 85 +- 30          // *100
-                            + " Y percent: " + df.format(newLeftPercentY * 0.9));           // BLDC                             // *100
-                    // oldLeftPercentX = newLeftPercentX;
+                            + " Y percent: " + df.format(newLeftPercentY * 0.19));         // BLDC                             // *100
+                    /*if (ws.isOpen()) {
+                        ws.sendText("L" + ";" + df.format(newLeftPercentX * 0.3) + ";"          // Rudder Sweep = 85 +- 30          // *100
+                                + df.format(newLeftPercentY * 0.9));                            // BLDC                             // *100
+                    }*/
+                    oldLeftPercentX = newLeftPercentX;
                     oldLeftPercentY = newLeftPercentY;
                     /** This if loop is used for performing vibrations */
                     if ((Math.abs(newLeftPercentX) >= 98) || (Math.abs(newLeftPercentY) >= 98)) {                       // *100 twice
@@ -220,6 +236,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     Log.d("Right Joystick", "X percent: "
                             + df.format(newRightPercentX * 0.35)                            // Aileron Sweep = 80/100 +- 35     // *100
                             + " Y percent: " + df.format(newRightPercentY * 0.19));         // Elevator Sweep = 84 +- 19        // *100
+                    /*if (ws.isOpen()) {
+                        ws.sendText("R" + ";" + df.format(newRightPercentX * 0.35) + ";"        // Aileron Sweep = 80/100 +- 35     // *100
+                                + df.format(newRightPercentY * 0.19));                          // Elevator Sweep = 84 +- 19        // *100
+                    }*/
                     oldRightPercentX = newRightPercentX;
                     oldRightPercentY = newRightPercentY;
                     /** This if loop is used for performing vibrations */
@@ -279,6 +299,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             + df.format(newLeftPercentY * 0.9));                            // BLDC                             // *100
                     ws.sendText("R" + ";" + df.format(newRightPercentX * 0.35) + ";"        // Aileron Sweep = 80/100 +- 35     // *100
                             + df.format(newRightPercentY * 0.19));                          // Elevator Sweep = 84 +- 19        // *100
+                    /*if (newLeftPercentX != oldLeftPercentX || newLeftPercentY != oldLeftPercentY){
+                        Log.d("Left Joystick", "X percent: "
+                                + df.format(newLeftPercentX * 0.3)                              // Rudder Sweep = 85 +- 30          // *100
+                                + " Y percent: " + df.format(newLeftPercentY * 0.19));         // BLDC                             // *100
+                    }
+                    if (newRightPercentX != oldRightPercentX || newRightPercentY != oldRightPercentY){
+                        Log.d("Right Joystick", "X percent: "
+                                + df.format(newRightPercentX * 0.35)                            // Aileron Sweep = 80/100 +- 35     // *100
+                                + " Y percent: " + df.format(newRightPercentY * 0.19));         // Elevator Sweep = 84 +- 19        // *100
+                    }*/
                 }
             } finally {
                 handler.postDelayed(statusChecker, 150);

@@ -25,6 +25,7 @@ public class TCPClient extends AsyncTask< Float, String, Void> {
 
     /**
      * Constructor of the class. OnMessagedReceived listens for the messages received from server
+     * For the data display of the 10 DOF IMU
      */
     public TCPClient(/*onMessageReceived listener*/) {
         //messageListener = listener;
