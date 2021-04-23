@@ -192,7 +192,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     Log.d("Left Joystick", "X percent: "
                             + df.format(newLeftPercentX * 0.3)                              // Rudder Sweep = 85 +- 30          // *100
                             + " Y percent: " + df.format(newLeftPercentY * 0.9));           // BLDC                             // *100
-                    oldLeftPercentX = newLeftPercentX;
+                    // oldLeftPercentX = newLeftPercentX;
                     oldLeftPercentY = newLeftPercentY;
                     /** This if loop is used for performing vibrations */
                     if ((Math.abs(newLeftPercentX) >= 98) || (Math.abs(newLeftPercentY) >= 98)) {                       // *100 twice

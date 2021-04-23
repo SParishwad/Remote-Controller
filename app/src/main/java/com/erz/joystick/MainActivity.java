@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.erz.joysticklibrary.JoyStick;
 
@@ -36,9 +37,13 @@ public class MainActivity extends AppCompatActivity implements JoyStick.JoyStick
     public void onMove(JoyStick joyStick, float xPercent, float yPercent, double angle) {
         switch (joyStick.getId()) {
             case R.id.leftJoystick:
+                TextView textViewLeft = (TextView)findViewById(R.id.leftJoystickText);
+                textViewLeft.setText(String.format("%.2f, %.2f", xPercent, yPercent)); //set text for text view
                 gameView.move("Left Joystick", xPercent, yPercent);
                 break;
             case R.id.rightJoystick:
+                TextView textViewRight = (TextView)findViewById(R.id.rightJoystickText);
+                textViewRight.setText(String.format("%.2f, %.2f", xPercent, yPercent)); //set text for text view
                 gameView.move("Right Joystick", xPercent, yPercent);
                 gameView.rotate(angle);
                 break;
