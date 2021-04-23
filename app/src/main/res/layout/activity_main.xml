@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@+id/myCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -28,44 +30,5 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="bottom|right"/>
-
-    <TextView
-        android:id="@+id/leftJoystickText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|left"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="leftJoystickText"
-        android:textColor="#FF0000"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/rightJoystickText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
-        android:text="rightJoystickText"
-        android:textColor="#FF0000"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/centerUpdates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
-        android:text=""
-        android:textColor="#FF0000"
-        android:textSize="20sp" />
 
 </FrameLayout>
