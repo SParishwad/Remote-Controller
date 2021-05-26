@@ -203,7 +203,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     DecimalFormat df = new DecimalFormat("##.#");
                     Log.d("Left Joystick", "X percent: "
                             + df.format(newLeftPercentX * 0.3)                              // Rudder Sweep = 85 +- 30          // *100
-                            + " Y percent: " + df.format(newLeftPercentY * 0.19));         // BLDC                             // *100
+                            + " Y percent: " + df.format(/*(*/newLeftPercentY * 0.30 /*+ 100) / 2 */));         // BLDC                             // *100
                     /*if (ws.isOpen()) {
                         ws.sendText("L" + ";" + df.format(newLeftPercentX * 0.3) + ";"          // Rudder Sweep = 85 +- 30          // *100
                                 + df.format(newLeftPercentY * 0.9));                            // BLDC                             // *100
@@ -296,7 +296,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (ws.isOpen()) {
                     DecimalFormat df = new DecimalFormat("##.#");
                     ws.sendText("L" + ";" + df.format(newLeftPercentX * 0.3) + ";"          // Rudder Sweep = 85 +- 30          // *100
-                            + df.format(newLeftPercentY * 0.9));                            // BLDC                             // *100
+                            + df.format(/*(*/newLeftPercentY * 0.30 /*+ 100) / 2 */));      // BLDC. This is rather annoying.                            // *100
                     ws.sendText("R" + ";" + df.format(newRightPercentX * 0.35) + ";"        // Aileron Sweep = 80/100 +- 35     // *100
                             + df.format(newRightPercentY * 0.19));                          // Elevator Sweep = 84 +- 19        // *100
                 }
