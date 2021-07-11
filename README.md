@@ -1,8 +1,13 @@
-# JoyStick
-Android Library for JoyStick View.<br>
-Customizable, small and lightweight.
+# Remote Controller
 
-[![Download](https://api.bintray.com/packages/erz05/maven/JoyStick/images/download.svg)](https://bintray.com/erz05/maven/JoyStick/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-JoyStick-blue.svg?style=flat)](http://android-arsenal.com/details/1/2712)
+This code is a part of a larger project. The Remote Controller app shall be used to transmit the Joystick signals to the NodeMCU. 
+The Android is connected to the WiFi Access point created by the NodeMCU. 
+ 
+The Remote Controller app is a modified version of the Joystick app by [erz05](https://github.com/erz05/JoyStick). 
+The modifications include the use of WebSockets to transmit the Joystick signals to the NodeMCU so that it can be used either directly to control 
+servos on a remote controlled vehicle or as in this case, to forward the signals via Radio communication to the Plane. 
+Another modification includes a haptic feedback provided by the phone with the help of vibrations when the joystick is moved. 
+
 
 <H2>Sample App</H2>
 <img height="70px" src="https://github.com/erz05/JoyStick/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
