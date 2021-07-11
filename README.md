@@ -12,9 +12,9 @@ Another modification includes a haptic feedback provided by the phone with the h
 <H2>Sample App</H2>
 <img height="70px" src="https://github.com/erz05/JoyStick/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
 
-<img width="300px" src="https://github.com/SParishwad/Remote-Controller/blob/main/images/WhatsApp%20Image%202021-07-11%20at%2022.05.36.jpeg" />
+<img width="500px" src="https://github.com/SParishwad/Remote-Controller/blob/main/images/WhatsApp%20Image%202021-07-11%20at%2022.05.36.jpeg" />
 <br><br>
-<img width="300px" src="https://github.com/SParishwad/Remote-Controller/blob/main/images/WhatsApp%20Image%202021-07-11%20at%2022.06.07.jpeg" />
+<img width="500px" src="https://github.com/SParishwad/Remote-Controller/blob/main/images/WhatsApp%20Image%202021-07-11%20at%2022.06.07.jpeg" />
 <br><br>
 
 <H2>Usage</H2>
