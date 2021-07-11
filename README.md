@@ -34,7 +34,8 @@ onMove: gets called everytime theres a touch interaction
 
 
 <H2>JavaClass GameView:</H2>
-This public class extends the surface view and 
+This public class extends the surface view and contains the handler for webSocket. Also, the OnMove method refines the update interval for the signals to be sent to the 
+NodeMCU via webSockets and the newPercentage only gets updated if the difference between the old value and the new value is greater than 1.  
 
 <H2>WebSockets</H2>
 The WebSockets library by [Takahiko Kawasaki](https://github.com/TakahikoKawasaki/nv-websocket-client) is used to create a WebSockets client. 
