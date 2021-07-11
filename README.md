@@ -7,7 +7,7 @@ The Remote Controller app is a modified version of the Joystick app by [erz05](h
 The modifications include the use of WebSockets to transmit the Joystick signals to the NodeMCU so that it can be used either directly to control 
 servos on a remote controlled vehicle or as in this case, to forward the signals via Radio communication to the Plane. 
 Another modification includes a haptic feedback provided by the phone with the help of vibrations when the joystick is moved. 
-
+Also the JoyStickListener provides the x and y percentages of the joystick movement. 
 
 <H2>Sample App</H2>
 <img height="70px" src="https://github.com/erz05/JoyStick/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
@@ -18,103 +18,27 @@ Another modification includes a haptic feedback provided by the phone with the h
 <br><br>
 
 <H2>Usage</H2>
-Gradle Import: jcenter <br>
-
-```groovy
-
-repositories {
-    maven {
-        url  "http://dl.bintray.com/erz05/maven" 
-    }
-    
-    //Or
-    
-    jcenter()
-}
-
-dependencies {
-    compile 'com.github.erz05:JoyStick:1.1.0'
-}
-```
-
-<H2>v1.1.0 BREAKING CHANGE!</H2>
-
-1. Made changes to JoyStickListener<br>
-a. Added Direction to onMove<br>
-b. Added Event calls for onTap and onDoubleTap<br>
-
-<H2>Defaults:</H2>
-
-1. Background = White
-2. Button = Red
-3. Button Radius = 25%
-4. StayPut = false
-5. Directional-Axis = 8
-
-<H2>Setup:</H2>
-
-```xml
-<com.erz.joysticklibrary.JoyStick
-  android:id="@+id/joy1"
-  android:layout_width="200dp"
-  android:layout_height="200dp"
-  android:layout_gravity="bottom"/>
-
-<com.erz.joysticklibrary.JoyStick
-    android:id="@+id/joy2"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_gravity="bottom|right"
-    app:padColor="#55ffffff"
-    app:buttonColor="#55ff0000"
-    app:stayPut="true"
-    app:percentage="25" //default 25: radius percentage of full size of the view between 25% and 50%
-    app:backgroundDrawable="R.drawable.background"
-    app:buttonDrawable="R.drawable.button"/>
-```
-
-```java
-JoyStick joyStick = (JoyStick) findViewById(R.id.joyStick);
-
-//or 
-
-JoyStick joyStick = new JoyStick(context);
-```
 
 <H2>JoyStickListener:</H2>
 
 ```java
 //JoyStickListener Interface
 public interface JoyStickListener {
-        void onMove(JoyStick joyStick, double angle, double power, int direction);
-        void onTap();
-        void onDoubleTap();
+        void onMove(JoyStick joyStick, float xPercent, float yPercent, double angle);
 }
 
 //Set JoyStickListener
 joyStick.setListener(this);
 ```
-1. onMove: gets called everytime theres a touch interaction
-2. onTap: gets called onSingleTapConfirmed
-3. onDoubleTap: gets called onDoubleTap
+onMove: gets called everytime theres a touch interaction
 
-<H2>Directions:</H2>
-1. DIRECTION_CENTER = -1
-2. DIRECTION_LEFT = 0
-3. DIRECTION_LEFT_UP = 1
-4. DIRECTION_UP = 2
-5. DIRECTION_UP_RIGHT = 3 
-6. DIRECTION_RIGHT = 4
-7. DIRECTION_RIGHT_DOWN = 5 
-8. DIRECTION_DOWN = 6
-9. DIRECTION_DOWN_LEFT = 7
 
-To get JoyStick direction you can use
+<H2>JavaClass GameView:</H2>
+This public class extends the surface view and 
 
-```java
-joyStick.getDirection();
-```
-or get it from the JoyStickListener
+<H2>WebSockets</H2>
+The WebSockets library by [Takahiko Kawasaki](https://github.com/TakahikoKawasaki/nv-websocket-client) is used to create a WebSockets client. 
+A Websocket connection is created when the surface is created and the handler is responsible to transmit the control signals every 150 ms through a runnable object. 
 
 <H2>Axis Types:</H2>
 1. TYPE_8_AXIS 
